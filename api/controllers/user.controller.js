@@ -51,6 +51,9 @@ export const deleteUser = async (req, res, next) => {
 };
 
 export const getUserListings = async (req, res, next) => {
+  if (!req.user.id) {
+    return next(errorHandler(401, 'somthing wrong happen!'));
+  }
   if (req.user.id === req.params.id) {
     try {
       const listings = await Listing.find({ userRef: req.params.id });
